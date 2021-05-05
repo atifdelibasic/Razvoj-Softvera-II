@@ -1,4 +1,5 @@
 using eProdaja.Database;
+using eProdaja.Filters;
 using eProdaja.Sevices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,14 +30,20 @@ namespace eProdaja
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-            services.AddControllers();
+            services.AddControllers(x =>
+            {
+                x.Filters.Add<ErrorFilter>();
+            });
 
             services.AddSwaggerGen();
             services.AddDbContext<eProdajaContext>(
             options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddTransient<IProizvodService, ProizvodService>();
-            services.AddTransient<IKorisniciService, KorisniciService>();
+            services.AddScoped<IProizvodService, ProizvodService>();
+            services.AddScoped<IKorisniciService, KorisniciService>();
+            services.AddScoped<IJedinicaMjereService, JediniceMjereService>();
+            services.AddScoped<IVrsteProizvodumService, VrsteProizvodumService>();
+            services.AddScoped<IProizvodiService, ProizvodiService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

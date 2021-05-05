@@ -1,4 +1,5 @@
 ﻿using eProdaja.Database;
+using eProdaja.Model.Requests;
 using eProdaja.Sevices;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,6 +24,17 @@ namespace eProdaja.Controllers
         {
             return _service.Get();
         }
-       
+
+        [HttpGet("{id}")]
+        public Model.Korisnici GetById(int id)
+        {
+            return _service.GetById(id);
+        }
+
+        [HttpPost]
+        public Model.Korisnici Insert([FromBody] KorisniciInsertRequest request)
+        {
+            return _service.Insert(request);
+        }
     }
 }
